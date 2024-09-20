@@ -26,11 +26,12 @@ function createCard(cardData, deleteCallback) {
   return cardElement;
 }
 
-document.querySelector(".places__list").innerHTML = "";
+function deleteCard(card) {
+  card.remove();
+}
+
+const cardContainer = document.querySelector(".places__list");
+
 for (let i = 0; i < initialCards.length; i++) {
-  document.querySelector(".places__list").append(
-      createCard(initialCards[i], (card) => {
-          card.remove();
-      })
-  );
+  cardContainer.append(createCard(initialCards[i], deleteCard));
 }
