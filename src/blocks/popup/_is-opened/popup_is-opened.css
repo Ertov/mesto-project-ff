@@ -1,0 +1,6 @@
+.popup_is-opened {
+  display: flex; /* Показать попап */
+  visibility: visible; /* Сделать видимым */
+  opacity: 1; /* Полная видимость */
+  pointer-events: all; /* Разрешить взаимодействие с попапом */
+}
