@@ -1,5 +1,5 @@
 import "./pages/index.css";
-import { initialCards } from "./scripts/cards.js";
+import { initialCards } from "./components/cards.js";
 import { createCard, handleLikeButtonClick } from "./components/card.js";
 import { openModal, closeModal } from "./components/modal.js";
 
@@ -9,17 +9,17 @@ const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 const popupTypeEdit = document.querySelector('.popup_type_edit');
 const popupFormEdit = popupTypeEdit.querySelector('.popup__form');
-const formName = popupFormEdit.querySelector('.popup__input_type_name');
-const formDescription = popupFormEdit.querySelector('.popup__input_type_description');
+const inputNameFormNewCard = popupFormEdit.querySelector('.popup__input_type_name');
+const inputNameFormProfile = popupFormEdit.querySelector('.popup__input_type_description');
 const popupTypeImage = document.querySelector('.popup_type_image');
 const imagePopup = document.querySelector('.popup__image');
-const popupCaption = document.querySelector('.popup__caption');
+const imagePopupCaption = document.querySelector('.popup__caption');
 const placeList = document.querySelector('.places__list');
 const popupAddButton = document.querySelector('.profile__add-button');
 const popupNewCard = document.querySelector(".popup_type_new-card");
 const formElementNewCard = popupNewCard.querySelector('.popup__form');
-const newCardName = formElementNewCard.querySelector('.popup__input_type_card-name');
-const linkNewCard = formElementNewCard.querySelector('.popup__input_type_url');
+const inputNewCardName = formElementNewCard.querySelector('.popup__input_type_card-name');
+const inputLinkNewCard = formElementNewCard.querySelector('.popup__input_type_url');
 const saveNewCardBtn = popupNewCard.querySelector('.popup__button');
 const closeBtns = document.querySelectorAll('.popup__close');
 
@@ -30,8 +30,8 @@ popupAddButton.addEventListener('click', () => {
 
 // Обработчик события для кнопки "Редактировать"
 editBtn.addEventListener('click', () => {
-  formName.value = profileTitle.textContent;
-  formDescription.value = profileDescription.textContent;
+  inputNameFormNewCard.value = profileTitle.textContent;
+  inputNameFormProfile.value = profileDescription.textContent;
   openModal(popupTypeEdit);
 });
 
@@ -43,10 +43,9 @@ closeBtns.forEach(button => {
   });
 });
 
-// Закрытие попапа при клике вне его области
-window.addEventListener('click', (event) => {
-  const popups = document.querySelectorAll('.popup_is-opened');
-  popups.forEach(popup => {
+const popups = document.querySelectorAll('.popup_type_edit, .popup_type_image, .popup_type_new-card');
+popups.forEach(popup => {
+  popup.addEventListener('click', (event) => {
     if (event.target === popup) {
       closeModal(popup);
     }
@@ -57,7 +56,7 @@ window.addEventListener('click', (event) => {
 function openImagePopup(targetImage) {
   imagePopup.src = targetImage.src;
   imagePopup.alt = targetImage.alt;
-  popupCaption.textContent = targetImage.alt;
+  imagePopupCaption.textContent = targetImage.alt;
   openModal(popupTypeImage);
 }
 
@@ -70,8 +69,8 @@ initialCards.forEach(cardItem => {
 // Обработчик отправки формы редактирования профиля
 popupFormEdit.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  profileTitle.textContent = formName.value;
-  profileDescription.textContent = formDescription.value;
+  profileTitle.textContent = inputNameFormNewCard.value;
+  profileDescription.textContent = inputNameFormProfile.value;
   closeModal(popupTypeEdit);
 });
 
@@ -79,8 +78,8 @@ popupFormEdit.addEventListener('submit', (evt) => {
 saveNewCardBtn.addEventListener('click', (event) => {
   event.preventDefault();
   const item = {
-    name: newCardName.value,
-    link: linkNewCard.value,
+    name: inputNewCardName.value,
+    link: inputLinkNewCard.value,
   };
   const cardElement = createCard(item, handleLikeButtonClick, openImagePopup);
   placeList.prepend(cardElement);
