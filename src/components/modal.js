@@ -10,18 +10,19 @@ export function openModal(modal) {
 
   document.addEventListener('keydown', closeOnEsc);
 
-  modal.dataset.closeOnEsc = closeOnEsc;
+  modal.closeOnEsc = closeOnEsc;
 }
 
 export function closeModal(modal) {
   modal.classList.remove('popup_is-opened');
+  
   setTimeout(() => {
     modal.style.display = 'none'; 
   }, 600);
 
-  const closeOnEsc = modal.dataset.closeOnEsc;
-  if (closeOnEsc) {
-    document.removeEventListener('keydown', closeOnEsc);
-    delete modal.dataset.closeOnEsc; 
+  if (modal.closeOnEsc) {
+    document.removeEventListener('keydown', modal.closeOnEsc);
+  
+    delete modal.closeOnEsc; 
   }
 }
